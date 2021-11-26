@@ -20,6 +20,10 @@ uvicorn app.main:app --port=8080 --reload
 *  https://www.tutorialspoint.com/sqlalchemy/sqlalchemy_orm_updating_objects.htm
 * I'm using sqlite which is a simple db contained in a file. 
 * The db will be a file named `sql_app.db` in the root of the repo when run. 
+* I use sqlite studio to open the database and see what is inside. 
+    * https://sqlitestudio.pl/
+    * Make sure you close it before trying to delete the database file. 
+    * If you make changes to the code in python sqlalchamey then it will need to make a new database object. So make sure you close the db and delete the file. This could be avoided with migration strategies, but that is a whole topic by itself. 
 
 
 # Enviroment

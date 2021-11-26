@@ -22,8 +22,35 @@ To export the enviroment to the requirements.txt, run
 ```
 pip list --format=freeze > requirements.txt
 ```
-To add nathan's code. Note: Using the main branch. 
-`pip install -e git+https://github.com/nkbrown503/PhDResearch.git@main#egg=rl_top_opt`
+To add nathan's code. Note: Using the main branch. You need to add this to the end of the `requirements.txt`. and comment out the `rl-top-opt` package. 
+
+```
+-e git+https://github.com/nkbrown503/PhDResearch.git@main#egg=rl_top_opt
+```
 
 # NOTE
 * folder `src` is not part of the repo. 
+
+# Docker
+
+## docker build
+
+ `docker build --pull --rm -f "Dockerfile" -t rlappdocker:latest "."`
+
+## Run
+` docker run -p 8080:8080   rlappdocker:latest `
+
+ then go to `localhost:8080` in a webbrowser
+
+ ## What is running to get imageID
+ `docker ps`
+
+
+## Debugging docker
+
+`docker logs XXXX_imageID`
+
+## docker stop
+`docker stop XXXX_imageID`
+
+<!-- docker run -d --name=logtest rlappdocker /bin/sh -c “while true; do sleep 2; df -h; done” -->

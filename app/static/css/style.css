@@ -1,0 +1,37 @@
+/* body {
+  font-family: "helvetica", sans-serif;
+  text-align: center;
+} */
+.grid { margin:1em auto; border-collapse:collapse }
+.grid td {
+    cursor:pointer;
+    width:30px; height:30px;
+    border:1px solid #ccc;
+    text-align:center;
+    font-family:sans-serif; font-size:13px
+}
+.grid td.fixed_bc {
+    background-color:yellow;
+    font-weight:bold; color:red;
+}
+.grid td.up {
+  background-color:rgb(247, 137, 64);
+  font-weight:bold; color:rgb(1, 255, 14);
+}
+.grid td.down {
+  background-color:rgb(247, 137, 64);
+  font-weight:bold; color:rgb(1, 162, 255);
+}
+.grid td.left {
+  background-color:rgb(247, 137, 64);
+  font-weight:bold; color:rgb(255, 1, 77);
+}
+.grid td.right {
+  background-color:rgb(247, 137, 64);
+  font-weight:bold; color:rgb(204, 1, 255);
+}
+
+.grid td.material {
+  background-color:rgb(0, 0, 0);
+  font-weight:bold; color:rgb(255, 255, 255);
+}

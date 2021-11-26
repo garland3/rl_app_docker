@@ -1,0 +1,7 @@
+{
+    "python.analysis.extraPaths": [
+        "./app",
+        "./app",
+        "./src/rl-top-opt"
+    ]
+}

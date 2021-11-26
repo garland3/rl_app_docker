@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  web:
+    # environment:
+    #   -  cosmo_ACCOUNT_HOST
+    #   -  cosmo_masterkey
+    # build: .
+    # image: "python-rl-web-app"
+    build: . # build the local source to allow active editing. also need volumes
+    volumes:
+      - .:/app
+    
+    ports:
+      - "8080:8080"
+  # redis:
+  #   image: "redis:alpine"

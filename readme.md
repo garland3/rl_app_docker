@@ -22,3 +22,8 @@ To export the enviroment to the requirements.txt, run
 ```
 pip list --format=freeze > requirements.txt
 ```
+To add nathan's code. Note: Using the main branch. 
+`pip install -e git+https://github.com/nkbrown503/PhDResearch.git@main#egg=rl_top_opt`
+
+# NOTE
+* folder `src` is not part of the repo. 

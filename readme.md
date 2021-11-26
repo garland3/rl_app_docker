@@ -1,4 +1,6 @@
-# setup
+# Development Setup
+Goal is to setup a docker container for development since it is much easier to run a server in Linux than Windows. So, we basically setup a linux dev container. 
+
 * install docker
 * install vscode. 
 * install vscode remote container dev tools
@@ -12,12 +14,15 @@ uvicorn app.main:app --port=8080 --reload
 ```
 * Test by going (in your web browser) to `http://localhost:8080`
 
-# db
-<!-- ` docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres` -->
-https://fastapi.tiangolo.com/tutorial/sql-databases/
+# Database
+* https://fastapi.tiangolo.com/tutorial/sql-databases/
+* https://fastapi.tiangolo.com/tutorial/sql-databases/#create-the-sqlalchemy-engine
+*  https://www.tutorialspoint.com/sqlalchemy/sqlalchemy_orm_updating_objects.htm
+* I'm using sqlite which is a simple db contained in a file. 
+* The db will be a file named `sql_app.db` in the root of the repo when run. 
 
 
-# enviroment
+# Enviroment
 To export the enviroment to the requirements.txt, run
 ```
 pip list --format=freeze > requirements.txt
@@ -32,25 +37,46 @@ To add nathan's code. Note: Using the main branch. You need to add this to the e
 * folder `src` is not part of the repo. 
 
 # Docker
+This is for setting up the final version. Not the development version. 
 
-## docker build
+1.  docker build
+In the root folder of the repo:
+ ```
+ docker build --pull --rm -f "Dockerfile" -t rlappdocker:latest "."
+ ```
 
- `docker build --pull --rm -f "Dockerfile" -t rlappdocker:latest "."`
-
-## Run
-` docker run -p 8080:8080   rlappdocker:latest `
+2. Run
+```
+docker run -p 8080:8080   rlappdocker:latest 
+```
 
  then go to `localhost:8080` in a webbrowser
 
- ## What is running to get imageID
- `docker ps`
+3.  What is running to get imageID
+ ```
+ docker ps
+ ```
 
 
-## Debugging docker
+4.  Debugging docker
 
-`docker logs XXXX_imageID`
+```
+docker logs XXXX_imageID
+```
 
-## docker stop
-`docker stop XXXX_imageID`
+5. docker stop
+```
+docker stop XXXX_imageID
+```
+
+6.  Docker push image
+```
+docker push garland3/rlappdocker:latest
+```
+
+7. Pull image
+```
+docker pull garland3/rlappdocker
+```
 
 <!-- docker run -d --name=logtest rlappdocker /bin/sh -c “while true; do sleep 2; df -h; done” -->

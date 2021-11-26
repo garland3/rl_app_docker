@@ -125,7 +125,7 @@ var SUBMIT_BUTTON = document.getElementById('submit');
 var job_id = 1;
 
 
-function check_interval_counter(){
+function check_interval_counter() {
     if (INTERVAL_COUNTER > 2 * MAX_INTERVAL_COUNTER) {
         window.clearInterval(INTERVAL_TIMER_ID);
         SUBMIT_BUTTON.removeAttribute("disabled");
@@ -156,8 +156,8 @@ function check_design_finished() {
             else { res = JSON.parse(res); }
             RESPONSE_OJB = res;
             console.log("check if done response is " + res);
-            if ("intermediate_results" in res && res['intermediate_results']== true) {
-                if (USING_FAST_INTERVAL == false){
+            if ("intermediate_results" in res && res['intermediate_results'] == true) {
+                if (USING_FAST_INTERVAL == false) {
                     // basically, pick up the pass on checking for updates. 
                     USING_FAST_INTERVAL = true;
                     window.clearInterval(INTERVAL_TIMER_ID);
@@ -173,7 +173,7 @@ function check_design_finished() {
                 check_interval_counter();
             }
             else {
-                if ("final_result" in res && res['final_result']== true) {
+                if ("final_result" in res && res['final_result'] == true) {
                     console.log("Applying results");
                     apply_results(res.result);
                     SUBMIT_BUTTON.removeAttribute("disabled");
@@ -192,12 +192,12 @@ function check_design_finished() {
                     } else {
                         // switch the 1st char back and forth to make it look like it's doing something
                         var firstchar = SUBMIT_BUTTON.innerText[0];
-                        if (firstchar=="."){
+                        if (firstchar == ".") {
                             firstchar = "__";
-                        } else{
-                            firstchar=".."
+                        } else {
+                            firstchar = ".."
                         }
-                        var message = firstchar+"In the design queue. Your position is " + position;
+                        var message = firstchar + "In the design queue. Your position is " + position;
                         console.log(message);
                         SUBMIT_BUTTON.innerText = message;
                     }

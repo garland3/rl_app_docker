@@ -50,8 +50,9 @@ async def submit_job_clicked(request: Request, config: RLConfig,
     print(j, type(j))
     return JSONResponse(content=j)
 
+
 def get_status_return_object(db, job_id):
-    status = crud.get_most_recent_DesignStatus_with_jobid(db,job_id)  
+    status = crud.get_most_recent_DesignStatus_with_jobid(db, job_id)
     result = decode_result_from_bytes_to_object(status.result)
     # status_result = TopResult.parse_raw(status.result)
     # j = {'result':status_result.json()}
@@ -74,32 +75,29 @@ async def check_if_done(request: Request, job: Job,
     job_t = crud.get_job(db, job.job_id)
     #  -------- IF FINISHED -----------
     if job_t.finished == True:
-        # TODO. Add return value.   
-        if job_t.designstatus: 
+        # TODO. Add return value.
+        if job_t.designstatus:
             j = get_status_return_object(db, job_t.id)
-            my_result = IntermediateResult(final_result = True, result = j)
+            my_result = IntermediateResult(final_result=True, result=j)
         else:
-            my_result = {"job":"fail"}
-        print(f"job finished, returning {my_result}")  
+            my_result = {"job": "fail"}
+        print(f"job finished, returning {my_result}")
         return my_result
-
 
     # -------- IF the JOB HAS SOME STATUS UPDATES ------
     if len(job_t.designstatus) > 0:
         print("Job's status is greater than 0. Assume working on job. ")
-        # TODO. Add return value with real results.   
+        # TODO. Add return value with real results.
         j = get_status_return_object(db, job_t.id)
-        my_result = IntermediateResult(intermediate_results = True, result = j)
+        my_result = IntermediateResult(intermediate_results=True, result=j)
         # j.intermediate_results = True
         # print(my_result)
         return my_result
-    
+
      # -------- ELSE. IT IS IN THE QUEUE. COMPUTE POSITION IN QUEUE ------
-    diff = compute_position_in_queue(db,job.job_id)
+    diff = compute_position_in_queue(db, job.job_id)
     return {'task': 'working', 'position': diff}
 
-
-    
     # If NOT done, then get the position in the queue
     # if item['done'] == False:
     #     postion = int(cosmos_obj.count_position_in_queue(job.job_id))+1

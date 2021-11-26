@@ -1,42 +1,26 @@
 from datetime import datetime, time
 from sqlalchemy.orm import Session
-
 from app.helpers.helpers import row_to_dict
-
 from .schemas import Job, RLConfig
 from .database_tables import Alive_t, DesignStatus_t, Job_t,  RLConfig_t
 
-# def create_user(db: Session, user: UserCreate):
-#     fake_hashed_password = user.password + "notreallyhashed"
-#     db_user = User(email=user.email, hashed_password=fake_hashed_password)
-#     db.add(db_user)
-#     db.commit()
-#     db.refresh(db_user)
-#     return db_user
-
-# https://fastapi.tiangolo.com/tutorial/sql-databases/#create-the-sqlalchemy-engine
-# https://www.tutorialspoint.com/sqlalchemy/sqlalchemy_orm_updating_objects.htm
-
 
 def commit_updates(db: Session):
+    """Commit any updates which basically updates the actual db with any changs. """
     db.commit()
 
 
 def list_2_comma_string(mylist: list):
+    """Converts a list to a comman string. """
     return ",".join([str(a) for a in mylist])
 
-# def string_with_commas_to_list(string):
-
-
-def create_job(db: Session):
-    myjob = Job_t(timestamp=datetime.now())
-    db.add(myjob)
-    db.commit()
-    db.refresh(myjob)
-    return myjob
+# -------------------------------
+# --------------- RLConfig ----------
+# -------------------------------
 
 
 def create_RLConfig(db: Session, config: RLConfig, job_id: int):
+    """Create an RLConfig object in the database. """
     db_config_obj = RLConfig_t(
         bcs=list_2_comma_string(config.bcs),
         rights=list_2_comma_string(config.rights),
@@ -54,37 +38,64 @@ def create_RLConfig(db: Session, config: RLConfig, job_id: int):
 
 
 def get_RLConfig(db: Session, job_id):
+    """Get an RLConfig object in the database based on job_id"""
     result = db.query(RLConfig_t).filter(RLConfig_t.job_id == job_id).first()
     return result
 
+# -------------------------------
+# --------------- Jobs  ----------
+# -------------------------------
+
+
+def create_job(db: Session):
+    """Create a job object in the database. """
+    myjob = Job_t(timestamp=datetime.now())
+    db.add(myjob)
+    db.commit()
+    db.refresh(myjob)
+    return myjob
+
 
 def get_next_job(db: Session):
+    """Get the next job in the queue"""
     result = db.query(Job_t).filter(Job_t.finished == False).first()
     return result
 
 
 def get_job(db: Session, job_id: int):
+    """Get a job object based on the job_id"""
     result = db.query(Job_t).filter(Job_t.id == job_id).first()
     return result
 
 
 def get_job_being_worked_on(db: Session):
+    """Get the job object that is not finished, but is being worked on. """
     result = db.query(Job_t).filter(Job_t.finished == False,
                                     Job_t.working_on_job == True).first()
     return result
 
 
 def get_most_recent_job(db: Session):
+    """Get the most recently created job by time stampl. """
     result = db.query(Job_t).order_by(Job_t.timestamp.desc()).first()
     return result
-# def get_job(db:Session, uuid:int ):
-#     result = db.query(Job_t).filter(Job_t.id == job_id).first()
-#     return result
 
-    # db.refresh
+
+def set_all_jobs_to_finished(db: Session):
+    result = db.query(Job_t).filter(Job_t.finished == False)
+    for r in result:
+        print(row_to_dict(r))
+        r.finished = True
+        db.commit()
+
+# -------------------------------
+# --------------- DesignStatus_t  ----------
+# -------------------------------
 
 
 def create_DesignStatus(db: Session, job_id: int, progress: int, result: str):
+    """Create a new design status object which is the intermediate or final results 
+    of the rl algorithm. """
     status = DesignStatus_t(
         job_id=job_id,
         progress=progress,
@@ -105,18 +116,13 @@ def get_most_recent_DesignStatus(db: Session):
     result = db.query(DesignStatus_t).order_by(
         DesignStatus_t.timestamp.desc()).first()
     return result
-    # filter(Job_t.finished == False).first()
 
 
-def set_all_jobs_to_finished(db: Session):
-    result = db.query(Job_t).filter(Job_t.finished == False)
-    for r in result:
-        print(row_to_dict(r))
-        r.finished = True
-        db.commit()
-    # db.refresh()
-
-
+# -------------------------------
+# --------------- Alive_t
+# Alive object is used to determine if the work is still working/already busy
+# or perhaps it failed for some reason and is dead.
+# # -------------------------------
 def create_Alive(db: Session):
     a = Alive_t(time=datetime.now())
     db.add(a)

@@ -41,7 +41,7 @@ def check_if_alive(db, my_current_job_id: int = None):
         print("Alive tims is None. Assume dead")
         return False
 
-    diff_time = datetime.datetime.now() - alive_time
+    diff_time = datetime.now() - alive_time
     if diff_time.total_seconds() > MAX_DEAD_TIME:
         print("Alive time stamp is too old. Assume dead")
         return False

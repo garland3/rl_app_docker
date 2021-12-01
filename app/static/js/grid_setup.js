@@ -120,6 +120,7 @@ var INTERVAL_TIME_TILL_CHECK_IF_STARTED = 1500;
 var RESPONSE_OJB = null;
 var REPONSE_OBJ_PRE_JSON = null;
 var SUBMIT_BUTTON = document.getElementById('submit');
+var FINISHED_DIV = document.getElementById('finished');
 
 
 var job_id = 1;
@@ -181,6 +182,8 @@ function check_design_finished() {
                     SUBMIT_BUTTON.innerText = "Submit for Design";
                     window.clearInterval(INTERVAL_TIMER_ID);
                     USING_FAST_INTERVAL = false;
+                    // FINISHED_DIV.className = "h2"
+                    FINISHED_DIV.innerText = "Finished"
                 } else {
                     var position = res['position'];
                     if (position == 0) {
@@ -227,6 +230,7 @@ function submit_clicked(event, target_url) {
     SUBMIT_BUTTON.setAttributeNode(att);
     SUBMIT_BUTTON.classList.replace("btn-primary", "btn-success");
     SUBMIT_BUTTON.innerText = "Working! This might take a few moments. ";
+    FINISHED_DIV.innerText = ""
 
     var json = geneate_config_object();
     // console.log(target_url, json);

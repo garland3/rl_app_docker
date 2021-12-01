@@ -24,6 +24,7 @@ templates = Jinja2Templates(directory="app/templates")
 app.add_middleware(SessionMiddleware, secret_key="my_super_secret1290uAAA!!")
 
 
+
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     if "uuid" not in request.session:
